@@ -4,30 +4,24 @@ using namespace std;
 #define forn(i, n) for (int i = 0; i < int(n); i++)
 #define ull unsigned long long
 
-int get_second( pair<int, int> i ){ return i.second; }
+void solve (){
+    // Enter vector values
+    int n;
+    cin >> n;
+	vector<int> p(n);
+	for (int& x : p) cin >> x;
 
-ull calculatePairs(vector<int>& v){
-    ull sum = 0;
-    ull nbPairs;
-    for(auto& a: v){
-        nbPairs = a*(a-1)/2;
-        sum += nbPairs;
-    } 
-    return sum;
-}
-
-
-ull solve (vector<int>& p){
-    unordered_map<int, int> m;
-    if(p.size() == 1) return 0;
-    for(auto& a:p){
-        m[a]++;
+    //Solve 
+    ull result = 0;
+    map<int, int> m;
+    forn(i, n){
+        int a = p[i];
+        result += m[a];
+        if (a == 1) result += m[2];
+        else if (a == 2) result += m[1];
+        ++m[a];
     }
-    vector<int> v ( m.size() );
-    transform( m.begin(), m.end(), v.begin(), get_second);
-    sort(v.begin(), v.end());
-    int pairs12 = (m[1] = 0 || m[2] == 0) ? 0 : m[1] + m[2];
-    return calculatePairs(v) + pairs12;
+    cout << result << endl;
 }
 
 int main(){
@@ -35,16 +29,8 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout); 
     #endif
-    int n,t,a;
-    cin >> t;
-    while(t--) {
-        vector<int> v;
-        cin >> n;
-        forn(i,n){
-            cin >> a;
-            v.push_back(a);
-        }
-        cout << (solve(v)) << "\n";
-    }
+    int t;
+	cin >> t;
+	while (t--) solve();
     return 0;
 }
